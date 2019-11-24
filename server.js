@@ -19,7 +19,7 @@ app.listen(app.get("port"), function() {
 function loadGame(req, res) {
     console.log("Loading Game");
 
-    var title = uno;
+    var title = 'uno';
     console.log("Retrieving game with title ", title);
 
     getGameFromDb(title, function(error, result) {
