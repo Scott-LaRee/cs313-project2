@@ -8,7 +8,7 @@ const pool = new Pool({connectionString: connectionString});
 app.set("port", (process.env.PORT || 5000));
 app.set("view engine", "ejs");
 
-//app.get("/", loadGame);
+app.get("/", loadGame);
 app.get("/loadGame", loadGame);
 
 
@@ -19,15 +19,15 @@ app.listen(app.get("port"), function() {
 function loadGame(req, res) {
     console.log("Loading Game");
 
-    var title = req.query.title;
+    var title = uno;
     console.log("Retrieving game with title ", title);
 
     getGameFromDb(title, function(error, result) {
         if (error || result == null || result.length != 1) {
             Response.status(500).json({success:false, data: error});
         } else {
-            //res.json(result[0]);
-            res.render('result', {id: 23, title: 'game', user_id: 63, win_high: 'f'});
+            res.json(result[0]);
+            //res.render('result', {id: 23, title: 'game', user_id: 63, win_high: 'f'});
             //res.end();
         }
         console.log("Back from getGameFromDb with result:", result);
