@@ -26,9 +26,9 @@ function loadGame(req, res) {
         if (error || result == null || result.length != 1) {
             Response.status(500).json({success:false, data: error});
         } else {
-            res.json(result[0]);
-            //res.render('result', json(result[0]));
-            res.end();
+            //res.json(result[0]);
+            res.render('result', {id: 23, title: 'game', user_id: 63, win_high: 'f'});
+            //res.end();
         }
         console.log("Back from getGameFromDb with result:", result);
     });
