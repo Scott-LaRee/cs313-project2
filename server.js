@@ -28,6 +28,7 @@ function loadGame(req, res) {
         } else {
             res.json(result[0]);
             //res.render('result', json(result[0]));
+            res.end();
         }
         console.log("Back from getGameFromDb with result:", result);
     });
