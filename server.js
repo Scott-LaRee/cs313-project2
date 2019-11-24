@@ -8,7 +8,7 @@ const pool = new Pool({connectionString: connectionString});
 app.set("port", (process.env.PORT || 5000));
 app.set("view engine", "ejs");
 
-//app.get("/", getGameData);
+app.get("/", loadGame);
 app.get("/loadGame", loadGame);
 
 app.listen(app.get("port"), function() {
@@ -22,8 +22,15 @@ function loadGame(req, res) {
     console.log("Retrieving game with title ", title);
 
     getGameFromDb(title, function(error, result) {
+        if (error || result == null || result.length != 1) {
+            Response.status(500).json({success:false, data: error});
+        } else {
+            //res.json(result[0]);
+            res.render('result', json(result[0]));
+        }
         console.log("Back from getGameFromDb with result:", result);
     });
+    /*
     var result = {
         game_id: 23,
         title: 'shanghi', 
