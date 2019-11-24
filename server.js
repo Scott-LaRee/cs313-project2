@@ -8,8 +8,9 @@ const pool = new Pool({connectionString: connectionString});
 app.set("port", (process.env.PORT || 5000));
 app.set("view engine", "ejs");
 
-app.get("/", loadGame);
+//app.get("/", loadGame);
 app.get("/loadGame", loadGame);
+
 
 app.listen(app.get("port"), function() {
     console.log("The server is listening on port " + app.get("port"));
@@ -25,8 +26,8 @@ function loadGame(req, res) {
         if (error || result == null || result.length != 1) {
             Response.status(500).json({success:false, data: error});
         } else {
-            //res.json(result[0]);
-            res.render('result', json(result[0]));
+            res.json(result[0]);
+            //res.render('result', json(result[0]));
         }
         console.log("Back from getGameFromDb with result:", result);
     });
