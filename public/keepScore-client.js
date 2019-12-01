@@ -77,30 +77,36 @@ function calculateTotalScoreSum(playersArray) {
 }
 
 function setSaveForm() {
-  var newTextBox1 = document.createTextNode("save_pass");
-  newTextBox1.setAttribute("name", "save_pass");
+  var newTextBox1 = document.createElement("input");
+  newTextBox1.setAttribute('id', "save_pass");
+  newTextBox1.setAttribute('type', 'text');
+  newTextBox1.setAttribute('size', '7');
+  newTextBox1.setAttribute('name', 'save_pass');
   
-  var newLabel1 = createNewElement('LABEL', null);
+  var newLabel1 = document.createElement("LABEL");
   newLabel1.setAttribute("for", "save_pass");
   newLabel1.innerHTML = 'Enter Password';
 
-  var newLine1 = createNewElement('BR', null);
+  var newLine1 = document.createElement("BR");
 
   var parent = document.getElementById('saveForm');
-  parent.appendChild(newTextbox1);
+  parent.appendChild(newTextBox1);
   parent.appendChild(newLabel1);
   parent.appendChild(newLine1);
 
-  var newTextBox2 = document.createTextNode("pass_confirm");
+  var newTextBox2 = document.createElement("input");
+  newTextBox2.setAttribute('id', "pass_confirm");
+  newTextBox2.setAttribute('type', 'text');
+  newTextBox2.setAttribute('size', '7');
   newTextBox2.setAttribute("name", "pass_confirm");
   
-  var newLabel2 = createNewElement('LABEL', null);
+  var newLabel2 = document.createElement("LABEL");
   newLabel2.setAttribute("for", "pass_confirm");
   newLabel2.innerHTML = 'Confirm Password';
 
-  var newLine2 = createNewElement('BR', null);  
+  var newLine2 = document.createElement("BR");
 
-  parent.appendChild(newTextbox2);
+  parent.appendChild(newTextBox2);
   parent.appendChild(newLabel2);
   parent.appendChild(newLine2);
 
@@ -109,38 +115,37 @@ function setSaveForm() {
   newButton.setAttribute("value", "Confirm Save");
 }
 
-function createNewElement(type, id) {
-  var element = document.createElement(type);
-  if (id != null) {
-    element.setAttribute('id', id);
-  }
-}
-
 function setLoadForm() {
-  var newTextBox1 = document.createTextNode("game_id");
+  var newTextBox1 = document.createElement("input");
+  newTextBox1.setAttribute('id', "game_id");
+  newTextBox1.setAttribute('type', 'text');
+  newTextBox1.setAttribute('size', '7');
   newTextBox1.setAttribute("name", "game_id");
   
-  var newLabel1 = createNewElement('LABEL', null);
+  var newLabel1 = document.createElement("LABEL");
   newLabel1.setAttribute("for", "game_id");
   newLabel1.innerHTML = 'Enter Game ID';
 
-  var newLine1 = createNewElement('BR', null);
+  var newLine1 = document.createElement("BR");
 
   var parent = document.getElementById('loadForm');
-  parent.appendChild(newTextbox1);
+  parent.appendChild(newTextBox1);
   parent.appendChild(newLabel1);
   parent.appendChild(newLine1);
 
-  var newTextBox2 = document.createTextNode("load_pass");
+  var newTextBox2 = document.createElement("input");
+  newTextBox2.setAttribute('id', "load_pass");
+  newTextBox2.setAttribute('type', 'text');
+  newTextBox2.setAttribute('size', '7');
   newTextBox2.setAttribute("name", "load_pass");
   
-  var newLabel2 = createNewElement('LABEL', null);
+  var newLabel2 = document.createElement("LABEL");
   newLabel2.setAttribute("for", "load_pass");
   newLabel2.innerHTML = 'Enter Password';
 
-  var newLine2 = createNewElement('BR', null);  
+  var newLine2 = document.createElement("BR");
 
-  parent.appendChild(newTextbox2);
+  parent.appendChild(newTextBox2);
   parent.appendChild(newLabel2);
   parent.appendChild(newLine2);
 
