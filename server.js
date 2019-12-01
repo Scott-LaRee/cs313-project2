@@ -1,4 +1,6 @@
-var express = require("express");
+const express = require("express");
+//const PORT = process.env.PORT || 5000;
+const path = require ("path");
 
 var app = express();
 
@@ -7,7 +9,7 @@ const connectionString = process.env.DATABASE_URL || "postgres://keepscoreuser:s
 const pool = new Pool({connectionString: connectionString});
 app.set("port", (process.env.PORT || 5000));
 app.set("view engine", "ejs");
-
+app.use(express.static(path.join(__dirname, "public")));
 app.get("/", loadGame);
 app.get("/loadGame", loadGame);
 

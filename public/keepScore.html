@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+    <title>Keep Score</title>
+    <link type="text/css" rel="StyleSheet" href="/stylesheets/keepScore.css">
+    <script type="text/javascript" src="keepScore-client.js" charset="UTF-8"></script>
+
+  </head>
+    <body>
+      <h1>Keep Score</h1>
+      <div id="game_settings">
+        <button type="button" onclick="declareWinner()">Declare Winner</button>
+        <button type="button" onclick="setSaveForm()">Save Game</button>
+        <button type="button" onclick="setLoadForm()">Load Game</button>
+        <form id="saveForm"></form><br/>
+        <form id="loadForm"></form><br/>
+        <input type="checkbox" name="high_low" id = "high_low">Low Score Wins<br/>
+      </div>
+      <div id="game_data">
+        <form id="plyr_info">
+          <fieldset id="plyr_1">
+            <input type="text" id="p1_name" value = "Player 1" size="5" onfocus="this.value=''"><br/>
+            <input type="text" id="p1_h1" size="5" onchange="updateScore('p1')"><br/>
+            <input type="text" id="p1_h2" size="5" onchange="updateScore('p1')"><br/>
+            <input type="text" id="p1_h3" size="5" onchange="updateScore('p1')"><br/>
+            <input type="text" id="p1_h4" size="5" onchange="updateScore('p1')"><br/>
+            <input type="text" id="p1_h5" size="5" onchange="updateScore('p1')"><br/>
+            <input type="text" id="p1_h6" size="5" onchange="updateScore('p1')"><br/>
+            <input type="text" id="p1_h7" size="5" onchange="updateScore('p1')"><br/>
+            <input type="text" id="p1_h8" size="5" onchange="updateScore('p1')"><br/>
+            <input type="text" id="p1_h9" size="5" onchange="updateScore('p1')"><br/>
+            <input type="text" id="p1_h10" size="5" onchange="updateScore('p1')"><br/>
+            <input type="text" id="p1_total" size="5" readonly><br/>
+          </fieldset>
+          <fieldset id="plyr_2">
+            <input type="text" id="p2_name" value = "Player 2" size="5" onfocus="this.value=''"><br/>
+            <input type="text" id="p2_h1" size="5" onchange="updateScore('p2')"><br/>
+            <input type="text" id="p2_h2" size="5" onchange="updateScore('p2')"><br/>
+            <input type="text" id="p2_h3" size="5" onchange="updateScore('p2')"><br/>
+            <input type="text" id="p2_h4" size="5" onchange="updateScore('p2')"><br/>
+            <input type="text" id="p2_h5" size="5" onchange="updateScore('p2')"><br/>
+            <input type="text" id="p2_h6" size="5" onchange="updateScore('p2')"><br/>
+            <input type="text" id="p2_h7" size="5" onchange="updateScore('p2')"><br/>
+            <input type="text" id="p2_h8" size="5" onchange="updateScore('p2')"><br/>
+            <input type="text" id="p2_h9" size="5" onchange="updateScore('p2')"><br/>
+            <input type="text" id="p2_h10" size="5" onchange="updateScore('p2')"><br/>
+            <input type="text" id="p2_total" size="5" readonly><br/>
+          </fieldset>
+          <fieldset id="plyr_3">
+            <input type="text" id="p3_name" value = "Player 3" size="5" onfocus="this.value=''"><br/>
+            <input type="text" id="p3_h1" size="5" onchange="updateScore('p3')"><br/>
+            <input type="text" id="p3_h2" size="5" onchange="updateScore('p3')"><br/>
+            <input type="text" id="p3_h3" size="5" onchange="updateScore('p3')"><br/>
+            <input type="text" id="p3_h4" size="5" onchange="updateScore('p3')"><br/>
+            <input type="text" id="p3_h5" size="5" onchange="updateScore('p3')"><br/>
+            <input type="text" id="p3_h6" size="5" onchange="updateScore('p3')"><br/>
+            <input type="text" id="p3_h7" size="5" onchange="updateScore('p3')"><br/>
+            <input type="text" id="p3_h8" size="5" onchange="updateScore('p3')"><br/>
+            <input type="text" id="p3_h9" size="5" onchange="updateScore('p3')"><br/>
+            <input type="text" id="p3_h10" size="5" onchange="updateScore('p3')"><br/>
+            <input type="text" id="p3_total" size="5" readonly><br/>
+          </fieldset>
+          <fieldset id="plyr_4">
+            <input type="text" id="p4_name" value = "Player 4" size="5" onfocus="this.value=''"><br/>
+            <input type="text" id="p4_h1" size="5" onchange="updateScore('p4')"><br/>
+            <input type="text" id="p4_h2" size="5" onchange="updateScore('p4')"><br/>
+            <input type="text" id="p4_h3" size="5" onchange="updateScore('p4')"><br/>
+            <input type="text" id="p4_h4" size="5" onchange="updateScore('p4')"><br/>
+            <input type="text" id="p4_h5" size="5" onchange="updateScore('p4')"><br/>
+            <input type="text" id="p4_h6" size="5" onchange="updateScore('p4')"><br/>
+            <input type="text" id="p4_h7" size="5" onchange="updateScore('p4')"><br/>
+            <input type="text" id="p4_h8" size="5" onchange="updateScore('p4')"><br/>
+            <input type="text" id="p4_h9" size="5" onchange="updateScore('p4')"><br/>
+            <input type="text" id="p4_h10" size="5" onchange="updateScore('p4')"><br/>
+            <input type="text" id="p4_total" size="5"readonly><br/>
+          </fieldset>
+          <fieldset id="plyr_5">
+            <input type="text" id="p5_name" value = "Player 5" size="5" onfocus="this.value=''"><br/>
+            <input type="text" id="p5_h1" size="5" onchange="updateScore('p5')"><br/>
+            <input type="text" id="p5_h2" size="5" onchange="updateScore('p5')"><br/>
+            <input type="text" id="p5_h3" size="5" onchange="updateScore('p5')"><br/>
+            <input type="text" id="p5_h4" size="5" onchange="updateScore('p5')"><br/>
+            <input type="text" id="p5_h5" size="5" onchange="updateScore('p5')"><br/>
+            <input type="text" id="p5_h6" size="5" onchange="updateScore('p5')"><br/>
+            <input type="text" id="p5_h7" size="5" onchange="updateScore('p5')"><br/>
+            <input type="text" id="p5_h8" size="5" onchange="updateScore('p5')"><br/>
+            <input type="text" id="p5_h9" size="5" onchange="updateScore('p5')"><br/>
+            <input type="text" id="p5_h10" size="5" onchange="updateScore('p5')"><br/>
+            <input type="text" id="p5_total" size="5" readonly><br/>
+          </fieldset>
+          <fieldset id="plyr_6">
+            <input type="text" id="p6_name" value = "Player 6" size="5" onfocus="this.value=''"><br/>
+            <input type="text" id="p6_h1" size="5" onchange="updateScore('p6')"><br/>
+            <input type="text" id="p6_h2" size="5" onchange="updateScore('p6')"><br/>
+            <input type="text" id="p6_h3" size="5" onchange="updateScore('p6')"><br/>
+            <input type="text" id="p6_h4" size="5" onchange="updateScore('p6')"><br/>
+            <input type="text" id="p6_h5" size="5" onchange="updateScore('p6')"><br/>
+            <input type="text" id="p6_h6" size="5" onchange="updateScore('p6')"><br/>
+            <input type="text" id="p6_h7" size="5" onchange="updateScore('p6')"><br/>
+            <input type="text" id="p6_h" size="5" onchange="updateScore('p6')"><br/>
+            <input type="text" id="p6_h9" size="5" onchange="updateScore('p6')"><br/>
+            <input type="text" id="p6_h10" size="5" onchange="updateScore('p6')"><br/>
+            <input type="text" id="p6_total" size="5" readonly><br/>
+            </fieldset>
+        </form>
+        <div id="winnerDiv"></div>
+      </div>
+      
+    </body>
+</html>
