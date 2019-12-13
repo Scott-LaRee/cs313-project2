@@ -79,6 +79,8 @@ function calculateTotalScoreSum(playersArray) {
   return total;
 }
 
+
+
 function setSaveForm() {
   var newTextBox0 = document.createElement("input");
   newTextBox0.setAttribute('id', "save_title");
@@ -88,7 +90,7 @@ function setSaveForm() {
   
   var newLabel0 = document.createElement("LABEL");
   newLabel0.setAttribute("for", "save_title");
-  newLabel0.innerHTML = 'Enter Password';
+  newLabel0.innerHTML = 'Title for Save Game';
 
   var newLine0 = document.createElement("BR");
 
@@ -184,7 +186,7 @@ function setLoadForm() {
   var newButton = document.createElement('INPUT');
   newButton.setAttribute("type", "submit");
   newButton.setAttribute("value", "Confirm Load");
-  newButton.setAttribute("onclick", "LoadGame()");
+  newButton.setAttribute("onclick", "loadGame()");
   newButton.setAttribute("id", "load");
 
   var parent = document.getElementById('loadForm');
@@ -341,13 +343,26 @@ function calculateHighestScore(playersArray) {
   return winnerInfo;
 }
 
+const saveForm = document.getElementById('saveForm');
+saveForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  console.log('submit: ', e);
+  fetch('/saveGame', {
+    method: 'POST',
+    body: JSON.stringify({ text: 1 }),
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then(console.log)
+    .catch(console.err);
+});
+
 function saveGame() {
   console.log("Saving Game");
 
-  var title = document.getElementById('save_title');
+  var title = document.getElementById('save_title').value;
   
-  var pass1 = document.getElementById('save_pass');
-  var pass2 = document.getElementById('confirm_pass');
+  var pass1 = document.getElementById('save_pass').value;
+  var pass2 = document.getElementById('pass_confirm').value;
   var password = '';
 
   if (pass1 === pass2) {
@@ -361,9 +376,32 @@ function saveGame() {
   var playersArray = createPlayersArray();
   var game = new Game(title, password, winLow);
 
-  app.post("/saveGame", game, playersArray, function(req,res){
-    console.log("Back from server for save");
+ // app.post("/saveGame", game, playersArray, function(req,res){
+  //  console.log("Back from server for save");
 
-  });
+  // });
+  fetch('/saveGame')
+    .then(console.log)
+    .catch(console.err);
 }
 
+const loadForm = document.getElementById('loadForm');
+loadForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  console.log('submit: ', e);
+  fetch('/loadGame', {
+    method: 'GET',
+    body: JSON.stringify({ text: 1 }),
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then(console.log)
+    .catch(console.err);
+});
+
+function loadGame() {
+  console.log("Loading Game");
+
+  fetch('/loadGame')
+  .then(console.log)
+  .catch(console.err);
+}
