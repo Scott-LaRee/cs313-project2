@@ -347,9 +347,29 @@ const saveForm = document.getElementById('saveForm');
 saveForm.addEventListener('submit', (e) => {
   e.preventDefault();
   console.log('submit: ', e);
+  var title = document.getElementById('save_title').value;
+  
+  var pass1 = document.getElementById('save_pass').value;
+  var pass2 = document.getElementById('pass_confirm').value;
+  var password = '';
+
+  if (pass1 === pass2) {
+    password = pass1;
+  } else {
+    console.log("passwords do not match");
+  }
+
+  var winLow = document.getElementById('high_low').checked;
+
+  var playersArray = createPlayersArray();
+  var game = JSON.stringify({ title: title, password: password, 
+             win_low: winLow, players: JSON.stringify(playersArray) });
+  console.log(game);
+  console.log(playersArray.length);
+
   fetch('/saveGame', {
     method: 'POST',
-    body: JSON.stringify({ text: 1 }),
+    body: game,
     headers: { 'Content-Type': 'application/json' },
   })
     .then(console.log)
@@ -389,13 +409,34 @@ const loadForm = document.getElementById('loadForm');
 loadForm.addEventListener('submit', (e) => {
   e.preventDefault();
   console.log('submit: ', e);
-  fetch('/loadGame', {
-    method: 'GET',
-    body: JSON.stringify({ text: 1 }),
-    headers: { 'Content-Type': 'application/json' },
-  })
-    .then(console.log)
-    .catch(console.err);
+  var title = document.getElementById('load_title').value;
+  var password = document.getElementById('load_pass').value;
+  console.log('title = ' + title + ' password = ' + password);
+  var request = new XMLHttpRequest(),
+      target = '/loadGame?title=' + title + '&password=' + password;
+
+      request.open('GET', target);
+      request.send();
+      request.onreadystatechange = function() {
+        if(request.readyState === 4) {
+          var status = request.status;
+          if ((status >= 200 && status < 300) || status === 304) {
+            var response = request.responseText;
+            var object = JSON.parse(response);
+
+            console.log(object);
+          } else {
+            console.log ('Error making Ajax Request');
+          }
+        }
+      }
+  // fetch('/loadGame', {
+  //   method: 'GET',
+  //   body: JSON.stringify({title:e.load_title, password: e.load_pass}),
+  //   headers: { 'Content-Type': 'application/json' },
+  // })
+  //   .then(console.log)
+  //   .catch(console.err);
 });
 
 function loadGame() {
