@@ -202,7 +202,7 @@ function setLoadForm() {
 
 function Player(name, score, round1, round2, round3,
                round4, round5, round6, round7, 
-               round8, round9, round10) {
+               round8, round9, round10, playerId) {
   this.playerName = name;
   this.score = score;
   if (round1 != NaN) {
@@ -265,6 +265,11 @@ function Player(name, score, round1, round2, round3,
     this.round10 = 0;
   }
   
+  if (playerId != NaN) {
+    this.playerId = playerId;
+  } else {
+    this.playerId = null;
+  }
 }
 
 function createPlayersArray() {
@@ -285,6 +290,7 @@ function createPlayersArray() {
     r8Id = "p" + i + "_h8";
     r9Id = "p" + i + "_h9";
     r10Id = "p" + i + "_h10";
+    idId = "p" + i +"_id";
 
     name = document.getElementById(nameId).value;
     score = parseInt(document.getElementById(scoreId).value);
@@ -298,11 +304,11 @@ function createPlayersArray() {
     round8 = parseInt(document.getElementById(r8Id).value);
     round9 = parseInt(document.getElementById(r9Id).value);
     round10 = parseInt(document.getElementById(r10Id).value);
-
+    playerId = parseInt(document.getElementById(idId).value);
     
     if(score != NaN) {
       player = new Player(name, score, round1, round2, round3, round4,
-                          round5, round6, round7, round8, round9, round10);
+                          round5, round6, round7, round8, round9, round10, playerId);
       playersArray[i-1] = player;
     }
   }
@@ -488,7 +494,7 @@ function fillPlayerField(object, pNum) {
   var r8 = object.round8;
   var r9 = object.round9;
   var r10 = object.round10;
-
+  var id = object.player_id;
   document.getElementById('p' + pNum + '_name').value = name;
 
   if(r1 != null) {
@@ -529,5 +535,13 @@ function fillPlayerField(object, pNum) {
 
   if(r10 != null) {
     document.getElementById('p' + pNum + '_h10').value = r10;
+  }
+
+  if(total != null) {
+    document.getElementById('p' + pNum + '_total').value = total;
+  }
+
+  if(id != null) {
+    document.getElementById('p' + pNum + '_id').value = id;
   }
 }

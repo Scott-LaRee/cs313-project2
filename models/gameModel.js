@@ -6,7 +6,7 @@ function getGameFromDb(title, password, callback) {
   console.log("getGameFromDb called with title", title);
     
   var sql = "SELECT game_id, title, win_low, name, total, round1, round2, round3, " +
-            "round4, round5, round6, round7, round8, round9, round10 " + 
+            "round4, round5, round6, round7, round8, round9, round10, player_id " + 
             "FROM players INNER JOIN game_players ON players.id = " + 
             "game_players.player_id INNER JOIN games ON " +
             "game_players.game_id = games.id WHERE games.title = $1::varchar " +
@@ -110,13 +110,14 @@ function insertGamePlayer(gameId, playerId, callback) {
   });  
 }
 
-function getGameId(title, callback) {
+function getGameId(title, password, callback) {
   console.log("Getting Game ID");
   console.log("title = " + title);
   
-  var sql = "SELECT id FROM games WHERE games.title = $1::varchar"
+  var sql = "SELECT id FROM games WHERE games.title = $1::varchar " +
+            "AND games.password = $2::varchar";
 
-  params = [title];
+  params = [title, password];
   pool.query(sql, params, function(err, result) {
     if (err) {
         console.log("An error with the database occurred in getGameId");
@@ -154,23 +155,68 @@ function getPlayerId(player, callback) {
 function deleteGame(title, password, callback) {
   console.log("Deleting Game");
   console.log("title = " + title + " password = " + password);
-  // var sql = "DELETE FROM players p USING game_players gp WHERE ";
+  var sql = "DELETE FROM players p USING game_players gp WHERE ";
 
-  // params = [title, password];
+  params = [title, password];
 
-  // pool.query(sql, params, function(err, result) {
-  //   if (err) {
-  //       console.log("An error with the database occurred");
-  //       console.log(err);
-  //       callback(err, null);
-  //   }
-  //   else{
-  //     var results = {success:true};
-  //     callback(null, results); 
-  //   }
-  // });
+  pool.query(sql, params, function(err, result) {
+    if (err) {
+        console.log("An error with the database occurred");
+        console.log(err);
+        callback(err, null);
+    }
+    else{
+      var results = {success:true};
+      callback(null, results); 
+    }
+  });
   var results = {success:true};
   callback(null, results);
+}
+
+function updatePlayer(player, callback) {
+  var name = player.playerName;
+  var score = player.score;
+  var r1 = player.round1;
+  var r2 = player.round2;
+  var r3 = player.round3;
+  var r4 = player.round4;
+  var r5 = player.round5;
+  var r6 = player.round6;
+  var r7 = player.round7;
+  var r8 = player.round8;
+  var r9 = player.round9;
+  var r10 = player.round10;
+  var playerId = player.playerId;
+
+  console.log("Inserting Player");
+  console.log("player = " + player);
+  console.log("data = " + name + " " + score + " " + r1 + " " + r2 + " " + r3 + " " +
+                r4 + " " + r5 + " " + r6 + " " + r7 + " " + r8 + " " + r9 + " " + r10);
+
+  if (player.score != null) {
+    var sql = "UPDATE players SET total = $1::int, round1 = $2::int, round2 = $3::int, " +
+              "round3 = $4::int, round4 = $5::int, round5 = $6::int, round6 = $7::int, " +
+              "round7 = $8::int, round8 = $9::int, round9 = $10::int, round10 = $11::int" +
+              " WHERE id = $12::int";
+     
+    console.log (sql);
+    var params = [score, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, playerId];
+
+    pool.query(sql, params, function(err, result) {
+      if (err) {
+        console.log("An error with the database occurred in insertPlayer");
+        console.log(err);
+        callback(err, null);
+      } else {
+        var results = {success:true};
+        callback(null, results); 
+      }
+    });  
+  } else {
+    var results = { success: true };
+    callback(null, results);
+  }
 }
 
 module.exports = {
@@ -180,5 +226,6 @@ module.exports = {
   insertGamePlayer: insertGamePlayer,
   getGameId: getGameId,
   getPlayerId: getPlayerId,
-  deleteGame: deleteGame
+  deleteGame: deleteGame,
+  updatePlayer: updatePlayer
 }
