@@ -82,6 +82,11 @@ function calculateTotalScoreSum(playersArray) {
 
 
 function setSaveForm() {
+  var saveForm = document.getElementById('saveForm');
+  saveForm.innerHTML = '';
+  var loadForm = document.getElementById('loadForm');
+  loadForm.innerHTML = '';
+
   var newTextBox0 = document.createElement("input");
   newTextBox0.setAttribute('id', "save_title");
   newTextBox0.setAttribute('type', 'text');
@@ -122,7 +127,7 @@ function setSaveForm() {
   newButton.setAttribute("type", "submit");
   newButton.setAttribute("value", "Confirm Save");
   newButton.setAttribute("id", "save");
-  newButton.setAttribute("onclick", "saveGame()");
+  // newButton.setAttribute("onclick", "saveGame()");
 
 
   var parent = document.getElementById('saveForm');
@@ -142,6 +147,11 @@ function setSaveForm() {
 }
 
 function setLoadForm() {
+  var saveForm = document.getElementById('saveForm');
+  saveForm.innerHTML = '';
+  var loadForm = document.getElementById('loadForm');
+  loadForm.innerHTML = '';
+  
   var newTextBox0 = document.createElement("input");
   newTextBox0.setAttribute('id', "load_title");
   newTextBox0.setAttribute('type', 'text');
@@ -153,23 +163,6 @@ function setLoadForm() {
   newLabel0.innerHTML = 'Enter Title';
 
   var newLine0 = document.createElement("BR");
-/*
-  var newTextBox1 = document.createElement("input");
-  newTextBox1.setAttribute('id', "game_id");
-  newTextBox1.setAttribute('type', 'text');
-  newTextBox1.setAttribute('size', '7');
-  newTextBox1.setAttribute("name", "game_id");
-  
-  var newLabel1 = document.createElement("LABEL");
-  newLabel1.setAttribute("for", "game_id");
-  newLabel1.innerHTML = 'Enter Game ID';
-
-  var newLine1 = document.createElement("BR");
-*/
-  // var parent = document.getElementById('loadForm');
-  // parent.appendChild(newTextBox1);
-  // parent.appendChild(newLabel1);
-  // parent.appendChild(newLine1);
 
   var newTextBox2 = document.createElement("input");
   newTextBox2.setAttribute('id', "load_pass");
@@ -186,7 +179,7 @@ function setLoadForm() {
   var newButton = document.createElement('INPUT');
   newButton.setAttribute("type", "submit");
   newButton.setAttribute("value", "Confirm Load");
-  newButton.setAttribute("onclick", "loadGame()");
+  // newButton.setAttribute("onclick", "loadGame()");
   newButton.setAttribute("id", "load");
 
   var parent = document.getElementById('loadForm');
@@ -201,11 +194,11 @@ function setLoadForm() {
   parent.appendChild(newButton);
 }
 
-function Game (title, password, win_low) {
-  this.title = title;
-  this.password = password;
-  this.win_low = win_low;
-}
+// function Game (title, password, win_low) {
+//   this.title = title;
+//   this.password = password;
+//   this.win_low = win_low;
+// }
 
 function Player(name, score, round1, round2, round3,
                round4, round5, round6, round7, 
@@ -363,7 +356,7 @@ saveForm.addEventListener('submit', (e) => {
 
   var playersArray = createPlayersArray();
   var game = JSON.stringify({ title: title, password: password, 
-             win_low: winLow, players: JSON.stringify(playersArray) });
+             win_low: winLow, players: playersArray });
   console.log(game);
   console.log(playersArray.length);
 
@@ -377,32 +370,51 @@ saveForm.addEventListener('submit', (e) => {
 });
 
 function saveGame() {
-  console.log("Saving Game");
+  console.log("Saving Game from saveGame()");
 
-  var title = document.getElementById('save_title').value;
+  // var title = document.getElementById('save_title').value;
   
-  var pass1 = document.getElementById('save_pass').value;
-  var pass2 = document.getElementById('pass_confirm').value;
-  var password = '';
+  // var pass1 = document.getElementById('save_pass').value;
+  // var pass2 = document.getElementById('pass_confirm').value;
+  // var password = '';
 
-  if (pass1 === pass2) {
-    password = pass1;
-  } else {
-    console.log("passwords do not match");
-  }
+  // if (pass1 === pass2) {
+  //   password = pass1;
+  // } else {
+  //   console.log("passwords do not match");
+  // }
 
-  var winLow = document.getElementById('high_low').checked;
+  // var winLow = document.getElementById('high_low').checked;
 
-  var playersArray = createPlayersArray();
-  var game = new Game(title, password, winLow);
+  // var playersArray = createPlayersArray();
+  // var game = new Game(title, password, winLow);
+
+  // var request = new XMLHttpRequest(),
+  //     target = '/loadGame';
+
+  //     request.open('POST', target);
+  //     request.send();
+  //     request.onreadystatechange = function() {
+  //       if(request.readyState === 4) {
+  //         var status = request.status;
+  //         if ((status >= 200 && status < 300) || status === 304) {
+  //           var response = request.responseText;
+  //           var object = JSON.parse(response);
+
+  //           console.log(object);
+  //         } else {
+  //           console.log ('Error making Ajax Request');
+  //         }
+  //       }
+  //     }
 
  // app.post("/saveGame", game, playersArray, function(req,res){
   //  console.log("Back from server for save");
 
   // });
-  fetch('/saveGame')
-    .then(console.log)
-    .catch(console.err);
+  // fetch('/saveGame')
+  //   .then(console.log)
+  //   .catch(console.err);
 }
 
 const loadForm = document.getElementById('loadForm');
@@ -423,6 +435,7 @@ loadForm.addEventListener('submit', (e) => {
           if ((status >= 200 && status < 300) || status === 304) {
             var response = request.responseText;
             var object = JSON.parse(response);
+            loadGame(object);
 
             console.log(object);
           } else {
@@ -439,10 +452,82 @@ loadForm.addEventListener('submit', (e) => {
   //   .catch(console.err);
 });
 
-function loadGame() {
+function loadGame(object) {
+  document.getElementById('messageDiv').innerHTML = '';
   console.log("Loading Game");
+  if (object.length != 0) {
+    var title = object[0].title;
+    var win_low = object[0].win_low;
 
-  fetch('/loadGame')
-  .then(console.log)
-  .catch(console.err);
+    for (var i = 0; i < object.length; i++) {
+      if (object[i].total != null) {
+        fillPlayerField(object[i], i + 1);
+      }
+    }
+
+    if (win_low) {
+      document.getElementById('high_low').checked = true;
+    }
+  } else {
+    var message = 'Game cannot be found please verify title and password are correct';
+    document.getElementById('messageDiv').innerHTML = message;
+  }
+  
+}
+
+function fillPlayerField(object, pNum) {
+  var name = object.name;
+  var total = object.total;
+  var r1 = object.round1;
+  var r2 = object.round2;
+  var r3 = object.round3;
+  var r4 = object.round4;
+  var r5 = object.round5;
+  var r6 = object.round6;
+  var r7 = object.round7;
+  var r8 = object.round8;
+  var r9 = object.round9;
+  var r10 = object.round10;
+
+  document.getElementById('p' + pNum + '_name').value = name;
+
+  if(r1 != null) {
+    document.getElementById('p' + pNum + '_h1').value = r1;
+  }
+
+  if(r2 != null) {
+    document.getElementById('p' + pNum + '_h2').value = r2;
+  }
+
+  if(r3 != null) {
+    document.getElementById('p' + pNum + '_h3').value = r3;
+  }
+
+  if(r4 != null) {
+    document.getElementById('p' + pNum + '_h4').value = r4;
+  }
+
+  if(r5 != null) {
+    document.getElementById('p' + pNum + '_h5').value = r5;
+  }
+  
+  if(r6 != null) {
+    document.getElementById('p' + pNum + '_h6').value = r6;
+  }
+
+  if(r7 != null) {
+    document.getElementById('p' + pNum + '_h7').value = r7;
+  }
+
+  if(r8 != null) {
+    document.getElementById('p' + pNum + '_h8').value = r8;
+  }
+
+  if(r9 != null) {
+    document.getElementById('p' + pNum + '_h9').value = r9;
+  }
+
+  if(r10 != null) {
+    document.getElementById('p' + pNum + '_h10').value = r10;
+  }
 }
